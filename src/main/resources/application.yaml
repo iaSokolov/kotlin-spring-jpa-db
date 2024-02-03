@@ -1,1 +1,6 @@
-
+---
+javax:
+  persistence:
+    schema-generation:
+      scripts:
+        action: create
