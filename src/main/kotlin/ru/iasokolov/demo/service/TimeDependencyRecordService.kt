@@ -3,20 +3,20 @@ package ru.iasokolov.demo.service
 import org.springframework.stereotype.Service
 import ru.iasokolov.demo.model.HrPeriod
 import ru.iasokolov.demo.model.TimeDependencyRecord
-import ru.iasokolov.demo.model.TimeDependencyRecordSlice
+import ru.iasokolov.demo.model.TimeDependencySlice
 
 @Service
 class TimeDependencyRecordService {
     fun <T, R> sliceRecords(
         newRecord: TimeDependencyRecord<T>,
         currentRecords: List<TimeDependencyRecord<T>>,
-        func: (TimeDependencyRecordSlice<T>) -> R
+        func: (TimeDependencySlice<T>) -> R
     ): List<R> {
-        val sliceRecords = mutableListOf<TimeDependencyRecordSlice<T>>()
+        val sliceRecords = mutableListOf<TimeDependencySlice<T>>()
 
         currentRecords.forEach { record ->
             if (record.period().startDate < newRecord.period().startDate) {
-                val slice = TimeDependencyRecordSlice(
+                val slice = TimeDependencySlice(
                     dataType = record.dataType(),
                     period = HrPeriod(
                         startDate = record.period().startDate,
@@ -28,7 +28,7 @@ class TimeDependencyRecordService {
             }
 
             if (record.period().endDate > newRecord.period().endDate) {
-                val slice = TimeDependencyRecordSlice(
+                val slice = TimeDependencySlice(
                     dataType = record.dataType(),
                     period = HrPeriod(
                         startDate = newRecord.period().endDate.plusDays(1L),
@@ -48,11 +48,11 @@ class TimeDependencyRecordService {
         currentRecords: List<TimeDependencyRecord<T>>,
         factory: TimeDependencyRecordFactory<T, R>
     ): List<R> {
-        val sliceRecords = mutableListOf<TimeDependencyRecordSlice<T>>()
+        val sliceRecords = mutableListOf<TimeDependencySlice<T>>()
 
         currentRecords.forEach { record ->
             if (record.period().startDate < newRecord.period().startDate) {
-                val slice = TimeDependencyRecordSlice(
+                val slice = TimeDependencySlice(
                     dataType = record.dataType(),
                     period = HrPeriod(
                         startDate = record.period().startDate,
@@ -64,7 +64,7 @@ class TimeDependencyRecordService {
             }
 
             if (record.period().endDate > newRecord.period().endDate) {
-                val slice = TimeDependencyRecordSlice(
+                val slice = TimeDependencySlice(
                     dataType = record.dataType(),
                     period = HrPeriod(
                         startDate = newRecord.period().endDate.plusDays(1L),
