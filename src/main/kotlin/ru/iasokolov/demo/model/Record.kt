@@ -1,12 +1,9 @@
 package ru.iasokolov.demo.model
 
-import java.util.UUID
-
 interface Record<T> {
-    fun id(): UUID
-    fun operationIn(): Operation
-    fun operationOut(): Operation?
-    fun deleted(): Boolean
-    fun dataType(): Int
-    fun data(): T
+    val recordDataType: Int
+    val recordOperationIn: Operation
+    var recordOperationOut: Operation?
+    var recordDeleted: Boolean
+    val recordData: T
 }

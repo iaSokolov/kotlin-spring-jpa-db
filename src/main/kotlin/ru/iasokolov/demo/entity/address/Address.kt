@@ -10,17 +10,37 @@ class Address(
     val id: UUID,
     val startDate: LocalDate,
     val endDate: LocalDate,
-    val deleted: Boolean,
+    var deleted: Boolean = false,
     val opIdIn: UUID,
-    val opIdOut: UUID?,
+    var opIdOut: UUID? = null,
     val dataType: Int,
     val data: AddressData
 ) : TimeDependencyRecord<AddressData> {
-    override fun id() = id
-    override fun dataType() = dataType
-    override fun period() = HrPeriod(startDate, endDate)
-    override fun deleted() = deleted
-    override fun operationIn() = Operation(id = opIdIn)
-    override fun operationOut() = opIdOut?.let { Operation(id = id) }
-    override fun data() = data
+
+    override val recordDataType: Int
+        get() = this.dataType
+
+    override val recordOperationIn: Operation
+        get() = Operation(this.opIdIn)
+
+    override var recordOperationOut: Operation?
+        get() = this.opIdOut?.let { Operation(it) }
+        set(value) {
+            this.opIdOut = value?.id
+        }
+
+    override var recordDeleted: Boolean
+        get() = this.deleted
+        set(value) {
+            this.deleted = value
+        }
+
+    override val recordData: AddressData
+        get() = this.data
+
+    override val period: HrPeriod
+        get() = HrPeriod(
+            startDate = this.startDate,
+            endDate = this.endDate
+        )
 }
