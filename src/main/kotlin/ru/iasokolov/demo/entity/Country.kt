@@ -12,5 +12,11 @@ class Country(
     val id: Int,
 
     @Column
-    val name: String
+    val dataType: Int,
+
+    @Column
+    val name: String,
+
+    @Column
+    val lang: String
 )
